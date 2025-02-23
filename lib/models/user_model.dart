@@ -7,7 +7,7 @@ class UserModel {
   final String uid;
   final String email;
   final String name;
-  final List<String> role; // List for future flexibility
+  final String role;
   final DateTime createdAt;
   final String password;
 
@@ -26,7 +26,7 @@ class UserModel {
       uid: map['uid'] ?? '',
       email: map['email'] ?? '',
       name: map['name'] ?? '',
-      role: List<String>.from(map['role'] ?? []),
+      role: map['role'] ?? '',
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       password: map['password'],
     );

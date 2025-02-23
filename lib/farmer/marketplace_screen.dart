@@ -13,12 +13,6 @@ class MarketplaceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Marketplace"),
-      leading: IconButton(
-    icon: Icon(Icons.arrow_back), // Custom back button icon
-    onPressed: () {
-      Navigator.pop(context); // Go back to the previous screen
-    },
-  ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: ProductService().getAllProducts(),

@@ -81,7 +81,7 @@ class AuthService {
       uid: userCredentials.user!.uid,
       email: email,
       name: name,
-      role: [role], // Storing as a list
+      role: role,
       createdAt: DateTime.now(),
       password: password,
     );
