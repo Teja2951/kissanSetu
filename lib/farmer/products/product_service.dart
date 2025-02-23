@@ -33,12 +33,10 @@ class ProductService {
     }
   }
 
-  // 🔍 Fetch All Products
   Stream<QuerySnapshot> getProducts() {
     return _firestore.collection(collectionName).orderBy("createdAt", descending: true).snapshots();
   }
 
-  // 🔍 Fetch Products of a Specific Farmer
   Stream<QuerySnapshot> getFarmerProducts(String farmerId) {
     return _firestore.collection(collectionName).where("farmerId", isEqualTo: farmerId).snapshots();
   }
@@ -47,9 +45,6 @@ class ProductService {
     return _firestore.collection(collectionName).where("isSold", isEqualTo: false).snapshots();
   }
 
-  
-
-  // ✏️ Update Product
   Future<void> updateProduct(String productId, Map<String, dynamic> updatedData) async {
     try {
       await _firestore.collection(collectionName).doc(productId).update(updatedData);
@@ -58,12 +53,25 @@ class ProductService {
     }
   }
 
-  // ❌ Delete Product
   Future<void> deleteProduct(String productId) async {
     try {
       await _firestore.collection(collectionName).doc(productId).delete();
     } catch (e) {
       print("Error deleting product: $e");
+    }
+  }
+
+   Future<int> getTotalProducts(String farmerId) async {
+    try {
+      final productSnapshot = await _firestore
+          .collection('products')
+          .where('farmerId', isEqualTo: farmerId)
+          .get();
+
+      return productSnapshot.docs.length;
+    } catch (e) {
+      print("Error fetching product count: $e");
+      return 0;
     }
   }
 }

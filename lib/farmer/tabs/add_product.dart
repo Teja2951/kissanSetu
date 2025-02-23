@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:kisaansetu/farmer/products/product_service.dart';
+import 'package:kisaansetu/helpers.dart';
+import 'package:kisaansetu/storage_methods.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({Key? key}) : super(key: key);
@@ -18,16 +22,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
   
-  File? _selectedImage; // Store picked image
-
-  Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
-    }
-  }
+  Uint8List? _selectedImage; // Store picked image
+  String url = 'null';
 
   Future<void> _uploadProduct() async {
     if (_nameController.text.isEmpty || _priceController.text.isEmpty) {
@@ -35,12 +31,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
       return;
     }
 
+
+    if(_selectedImage != null){
+      url = await StorageMethods().getUploadedImage(_selectedImage!);
+      print(url);
+    }
+
     await ProductService().addProduct(
       farmerId: FirebaseAuth.instance.currentUser!.uid,
       name: _nameController.text,
       price: double.parse(_priceController.text),
       description: _descriptionController.text,
-      imageUrl: "image_url_placeholder", // Replace this later with Firebase Storage URL
+      imageUrl: (url != 'null')? url : "EmptyBhai",
       category: _categoryController.text,
     );
   }
@@ -115,7 +117,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
               
               // Image Picker Section
               GestureDetector(
-                onTap: _pickImage,
+                onTap: () async{
+                   Uint8List im = await pickImage();
+                        setState(() {
+                          _selectedImage = im;
+                        });
+                },
                 child: Container(
                   width: 120,
                   height: 120,
@@ -134,7 +141,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       ? const Icon(Icons.upload, size: 50, color: Colors.grey)
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: Image.file(_selectedImage!, fit: BoxFit.cover),
+                          child: Image.memory(_selectedImage!),
                         ),
                 ),
               ),

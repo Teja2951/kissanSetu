@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:kisaansetu/farmer/farmerhome_screen.dart';
 import 'package:kisaansetu/firebase_options.dart';
 import 'package:kisaansetu/login_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sp;
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  // await Supabase.initialize(url: 'https://nxcbzibngzutdvnlwado.supabase.co',
-  //  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54Y2J6aWJuZ3p1dGR2bmx3YWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkyOTQ5MjEsImV4cCI6MjA1NDg3MDkyMX0.Dg-EF937zlJBDT6pQs7GrrBUitgk-L0imb4h7ybf7_8');
+   await sp.Supabase.initialize(url: 'https://jjzprwdgnxohoycmwqnh.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqenByd2RnbnhvaG95Y213cW5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMDExODUsImV4cCI6MjA1NTg3NzE4NX0.6lwPrcmkgvtbwkE34R-0z2HXRIATrEO7hkkJ3ab9sSw');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kisaansetu/farmer/order_service.dart';
 import 'package:kisaansetu/farmer/sales_chart.dart';
 
 class SellerDashboardScreen extends StatefulWidget {
@@ -81,7 +82,6 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
     var ordersSnapshot = await FirebaseFirestore.instance
         .collection("orders")
         .where("sellerId", isEqualTo: sellerId)
-        .where("isSold", isEqualTo: true)
         .get();
 
     double totalEarnings = 0;
@@ -103,7 +103,11 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
       }
     }
 
+    print("Total Orders Found: ${ordersSnapshot.docs.length}");
+
     for (var order in ordersSnapshot.docs) {
+      print("dgvb");
+      print(order["price"]);
       totalEarnings += order["price"] as double;
       
       // 🔥 Process category sales dynamically

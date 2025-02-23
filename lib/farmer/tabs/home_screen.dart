@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:kisaansetu/farmer/farmer_dashboard.dart';
+import 'package:kisaansetu/farmer/order_service.dart';
+import 'package:kisaansetu/farmer/products/product_service.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -15,6 +19,48 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final ProductService _productService = ProductService();
+  final OrderService _orderService = OrderService();
+
+  int _totalProducts = 0;
+  int _totalSales = 0;
+  double _totalRevenue = 0.0;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchStats();
+  }
+
+  Future<void> _fetchStats() async {
+    String farmerId = FirebaseAuth.instance.currentUser!.uid;
+
+    try {
+      int productCount = await _productService.getTotalProducts(farmerId);
+      Map<String, dynamic> stats = await _orderService.getStats(farmerId);
+
+      setState(() {
+        _totalProducts = productCount;
+        _totalSales = stats['totalSales'];
+        _totalRevenue = stats['totalRevenue'];
+        _isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching stats: $e");
+    }
+  }
+
+  Widget _buildStat(String title, String value) {
+    return (_isLoading)? CircularProgressIndicator() : Column(
+      children: [
+        Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        SizedBox(height: 5),
+        Text(title, style: TextStyle(fontSize: 14, color: Colors.white70)),
+      ],
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             _customIconButton(Icons.notifications, () {}),
                             const SizedBox(width: 10),
-                            _customIconButton(Icons.person, () {}),
+                            _customIconButton(Icons.person, () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SellerDashboardScreen())
+                              );
+                            }),
                           ],
                         ),
                       ],
@@ -67,6 +118,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 const SizedBox(height: 20),
+
+                Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
+              color: Colors.green.shade400, // Gradient feel
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildStat("🛍️ Products", "${_totalProducts}"),
+                    _buildStat("💰 Revenue", "${_totalRevenue}"),
+                    _buildStat("📦 Orders", "${_totalSales}"),
+                    _buildStat("⭐ Ratings", "${_totalRevenue}"),
+                  ],
+                ),
+              ),
+            ),
 
                 // Square Glassmorphic Cards Section
                 Expanded(

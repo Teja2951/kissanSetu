@@ -38,6 +38,7 @@ dependencies:
   uuid: ^4.5.1
   flutter_advanced_drawer:
   fl_chart: ^0.70.2
+  supabase_flutter:
 
 
   # The following adds the Cupertino Icons font to your application.
