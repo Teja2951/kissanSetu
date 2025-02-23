@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kisaansetu/api_service/api.dart';
 import 'package:kisaansetu/farmer/farmer_dashboard.dart';
 import 'package:kisaansetu/farmer/marketplace_screen.dart';
 
@@ -103,6 +104,7 @@ class _AdvancedDrawerContentState extends State<AdvancedDrawerContent> {
                       _buildListTile(Icons.money, 'Dashboard', SellerDashboardScreen()),
                       _buildListTile(Icons.person_2_rounded, 'Profile', MarketplaceScreen()),
                       _buildListTile(Icons.contact_page, 'Contact Us', MarketplaceScreen()),
+                      _buildListTile(Icons.contact_page, 'Mandi', MandiSelector()),
 
                     ],
                   ),
