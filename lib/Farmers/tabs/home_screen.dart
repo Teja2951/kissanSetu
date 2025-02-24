@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:kisaansetu/CropAnalysis.dart';
 import 'package:kisaansetu/Farmers/farmer_dashboard.dart';
+import 'package:kisaansetu/Farmers/tabs/custom_feautures';
 import 'package:kisaansetu/Services/order_service.dart';
 import 'package:kisaansetu/Services/product_service.dart';
 
@@ -65,6 +67,39 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> _features = [
+    {
+      'title': 'Live Mandi Rates',
+      'icon': Icons.trending_up,
+      'onTap': () {
+        
+      },
+    },
+    {
+      'title': 'Crop Doctor',
+      'icon': Icons.health_and_safety,
+      'onTap': () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CropDoctorScreen())
+        );
+      }
+    },
+    {
+      'title': 'Weather Forecast',
+      'icon': Icons.cloud,
+      'onTap': () {
+        
+      },
+    },
+    {
+      'title': 'Agri News',
+      'icon': Icons.article,
+      'onTap': () {
+        
+      },
+    },
+  ];
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -86,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
 
 
@@ -146,36 +181,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                // Square Glassmorphic Cards Section
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: GridView.builder(
+                      itemCount: _features.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // 2 cards per row
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 1, // Square cards
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1.2,
                       ),
-                      itemCount: 6, // Change this dynamically
                       itemBuilder: (context, index) {
-                        return GlassContainer(
-                          width: double.infinity,
-                          height: double.infinity,
-                          blur: 10,
-                          border: Border.all(color: Colors.green.withOpacity(0.2), width: 1),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white.withOpacity(0.3), // Soft white-transparent
-                          child: Center(
-                            child: Text(
-                              "Product ${index + 1}",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.brown[800], // Earthy tone for text
-                              ),
-                            ),
-                          ),
+                        return FeatureCard(
+                          title: _features[index]['title'],
+                          icon: _features[index]['icon'],
+                          onTap: _features[index]['onTap'],
                         );
                       },
                     ),
@@ -203,4 +224,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  
 }
