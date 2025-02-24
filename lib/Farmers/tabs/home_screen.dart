@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
-import 'package:kisaansetu/farmer/farmer_dashboard.dart';
-import 'package:kisaansetu/farmer/order_service.dart';
-import 'package:kisaansetu/farmer/products/product_service.dart';
+import 'package:kisaansetu/Farmers/farmer_dashboard.dart';
+import 'package:kisaansetu/Services/order_service.dart';
+import 'package:kisaansetu/Services/product_service.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -123,24 +123,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 SizedBox(
                   height: 150,
-                  child: Card(
-                                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  elevation: 4,
+                                  color: Colors.green.shade400, // Gradient feel
+                                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildStat("Listed Products", "${_totalProducts}",Icons.abc),
+                        _buildStat("Revenue", "${_totalRevenue}",Icons.aspect_ratio),
+                        _buildStat("Total Orders", "${_totalSales}",Icons.ac_unit_outlined),
+                      ],
+                    ),
+                                  ),
                                 ),
-                                elevation: 4,
-                                color: Colors.green.shade400, // Gradient feel
-                                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildStat("Listed Products", "${_totalProducts}",Icons.abc),
-                      _buildStat("Revenue", "${_totalRevenue}",Icons.aspect_ratio),
-                      _buildStat("Total Orders", "${_totalSales}",Icons.ac_unit_outlined),
-                    ],
                   ),
-                                ),
-                              ),
                 ),
 
                 // Square Glassmorphic Cards Section

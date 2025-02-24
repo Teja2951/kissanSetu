@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kisaansetu/farmer/products/product_service.dart';
-import 'package:kisaansetu/farmer/update_product_screen.dart';
+import 'package:kisaansetu/Services/product_service.dart';
+import 'package:kisaansetu/Farmers/update_product_screen.dart';
 
 class UserProductsScreen extends StatelessWidget {
   final String userId = FirebaseAuth.instance.currentUser!.uid;

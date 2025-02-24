@@ -28,7 +28,6 @@ class _ChatScreenState extends State<ChatScreen> {
       "timestamp": FieldValue.serverTimestamp(),
     });
 
-    // Update last message in chat
     await _firestore.collection("chats").doc(widget.chatId).update({
       "lastMessage": _messageController.text.trim(),
       "timestamp": FieldValue.serverTimestamp(),
@@ -43,7 +42,6 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(title: const Text("Chat")),
       body: Column(
         children: [
-          // Chat Messages
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _firestore
@@ -69,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         decoration: BoxDecoration(
-                          color: isMe ? Colors.blue : Colors.grey[300],
+                          color: isMe ? Colors.green : Colors.white,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(message["text"]),
@@ -81,7 +79,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
 
-          // Message Input Field
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -93,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.send, color: Colors.blue),
+                  icon: const Icon(Icons.send, color: Colors.green),
                   onPressed: sendMessage,
                 ),
               ],

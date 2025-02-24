@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kisaansetu/farmer/farmerhome_screen.dart';
-import 'package:kisaansetu/farmer/products/product_service.dart';
-import 'package:kisaansetu/farmer/products_detail_screen.dart';
-import 'package:kisaansetu/farmer/update_product_screen.dart';
+import 'package:kisaansetu/Farmers/farmerhome_screen.dart';
+import 'package:kisaansetu/Services/product_service.dart';
+import 'package:kisaansetu/Farmers/products_detail_screen.dart';
+import 'package:kisaansetu/Farmers/update_product_screen.dart';
 
 class MarketplaceScreen extends StatelessWidget {
   final String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -37,6 +37,7 @@ class MarketplaceScreen extends StatelessWidget {
             itemCount: products.length,
             itemBuilder: (context, index) {
               var product = products[index];
+              print(product.data());
               return _buildAnimatedCard(context, product, index);
             },
           );
@@ -50,7 +51,7 @@ Widget _buildAnimatedCard(BuildContext context, DocumentSnapshot product, int in
   return Hero(
     tag: product.id,
     child: AnimatedContainer(
-      duration: Duration(milliseconds: 300 + (index * 100)), // Staggered animation
+      duration: Duration(milliseconds: 300 + (index * 100)),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -81,7 +82,6 @@ Widget _buildAnimatedCard(BuildContext context, DocumentSnapshot product, int in
                       child: const Icon(Icons.image, size: 60, color: Colors.grey),
                     ),
             ),
-            // Gradient overlay for readability
             Positioned(
               bottom: 0,
               left: 0,
@@ -100,7 +100,6 @@ Widget _buildAnimatedCard(BuildContext context, DocumentSnapshot product, int in
                 ),
               ),
             ),
-            // Product Info and "Buy Now" button
             Positioned(
               bottom: 15,
               left: 12,

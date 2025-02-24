@@ -45,7 +45,21 @@ class AuthService {
         duration: const Duration(seconds: 2),
         backgroundColor: Colors.green,
       );
-    } catch (e) {
+    } on FirebaseAuthException catch(error) {
+      if(error == "user-not-verified"){
+        showToast(
+        "Please Verify your Email (Check Spam)",
+        context: context,
+        animation: StyledToastAnimation.scale,
+        position: StyledToastPosition.top,
+        duration: const Duration(seconds: 10),
+        backgroundColor: Colors.red,
+      );
+      }
+    }
+
+
+    catch (e) {
       showToast(
         e.toString(),
         context: context,

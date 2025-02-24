@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
-import 'package:kisaansetu/farmer/advance_draweer_content.dart';
-import 'package:kisaansetu/farmer/chatlist_screen.dart';
-import 'package:kisaansetu/farmer/marketplace_screen.dart';
+import 'package:kisaansetu/Farmers/advance_draweer_content.dart';
+import 'package:kisaansetu/chatlist_screen.dart';
+import 'package:kisaansetu/marketplace_screen.dart';
 import 'package:kisaansetu/settings_page.dart';
 
 class BuyerHomepage extends StatefulWidget {

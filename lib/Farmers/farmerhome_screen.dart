@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
-import 'package:kisaansetu/farmer/advance_draweer_content.dart';
-import 'package:kisaansetu/farmer/marketplace_screen.dart';
-import 'package:kisaansetu/farmer/tabs/add_product.dart';
-import 'package:kisaansetu/farmer/tabs/home_screen.dart';
-import 'package:kisaansetu/farmer/tabs/orders_screen.dart';
-import 'package:kisaansetu/farmer/user_products_screen.dart';
+import 'package:kisaansetu/Farmers/advance_draweer_content.dart';
+import 'package:kisaansetu/marketplace_screen.dart';
+import 'package:kisaansetu/Farmers/tabs/add_product.dart';
+import 'package:kisaansetu/Farmers/tabs/home_screen.dart';
+import 'package:kisaansetu/Farmers/tabs/orders_screen.dart';
+import 'package:kisaansetu/Farmers/user_products_screen.dart';
 
 class FarmerHomeScreen extends StatefulWidget {
   @override

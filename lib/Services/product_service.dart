@@ -5,7 +5,6 @@ class ProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String collectionName = "products";
 
-  // 🚀 Add Product
   Future<void> addProduct({
     required String farmerId,
     required String name,

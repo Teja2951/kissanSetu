@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kisaansetu/farmer/order_service.dart';
-import 'package:kisaansetu/farmer/sales_chart.dart';
+import 'package:kisaansetu/Services/order_service.dart';
+import 'package:kisaansetu/Farmers/sales_chart.dart';
 
 class SellerDashboardScreen extends StatefulWidget {
   @override

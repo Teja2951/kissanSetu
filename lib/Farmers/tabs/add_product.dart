@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import 'package:kisaansetu/farmer/products/product_service.dart';
+import 'package:kisaansetu/Services/product_service.dart';
 import 'package:kisaansetu/helpers.dart';
 import 'package:kisaansetu/storage_methods.dart';
 

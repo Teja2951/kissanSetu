@@ -276,43 +276,26 @@ class _MandiSelectorState extends State<MandiSelector> {
               ),
           
           
-                Container(
-                  decoration: BoxDecoration(
-    color: Colors.green.shade100, // Softer green shade
-    borderRadius: BorderRadius.circular(16), // Rounded corners
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black26, // Light shadow
-        blurRadius: 8,
-        offset: Offset(0, 4), // Shadow positioned below
-      ),
-    ],
-  ),
-                  height: MediaQuery.of(context).size.height*0.6,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Expanded(
-                      child: isLoadingCommodities
-                          ? Center(child: CircularProgressIndicator())
-                          : ListView.builder(
-                              itemCount: commodities.length,
-                              itemBuilder: (context, index) {
-                                return Card(
-                                  margin: EdgeInsets.symmetric(vertical: 8),
-                                  color: Colors.green.shade100,
-                                  child: ListTile(
-                                    leading: Icon(Icons.shopping_cart, color: Colors.green),
-                                    title: Text(
-                                      commodities[index]["commodity"]!,
-                                      style: TextStyle(fontWeight: FontWeight.bold),
-                                    ),
-                                    subtitle: Text("Price: ₹${commodities[index]["price"]} per Quintal"),
-                                  ),
-                                );
-                              },
-                            ),
-                    ),
-                  ),
+                Expanded(
+                  child: isLoadingCommodities
+                      ? Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          itemCount: commodities.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              margin: EdgeInsets.symmetric(vertical: 8),
+                              color: Colors.green.shade100,
+                              child: ListTile(
+                                leading: Icon(Icons.shopping_cart, color: Colors.green),
+                                title: Text(
+                                  commodities[index]["commodity"]!,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text("Price: ₹${commodities[index]["price"]} per Quintal"),
+                              ),
+                            );
+                          },
+                        ),
                 ),
               ],
             ),
