@@ -1,11 +1,15 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:kisaansetu/CropAnalysis.dart';
 import 'package:kisaansetu/Farmers/farmer_dashboard.dart';
-import 'package:kisaansetu/Farmers/tabs/custom_feautures';
+import 'package:kisaansetu/Farmers/tabs/cards.dart';
+import 'package:kisaansetu/Farmers/tabs/dashboard_card.dart';
 import 'package:kisaansetu/Services/order_service.dart';
 import 'package:kisaansetu/Services/product_service.dart';
+import 'package:kisaansetu/Widgets_Homescreen/mandi_service.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -54,137 +58,176 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget _buildStat(String title, String value, IconData icon) {
-    return (_isLoading)? CircularProgressIndicator() : Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-        SizedBox(height: 5),
-        Icon(icon),
-        Text(title, style: TextStyle(fontSize: 14, color: Colors.white70)),
-      ],
-    );
-  }
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> _features = [
-    {
-      'title': 'Live Mandi Rates',
-      'icon': Icons.trending_up,
-      'onTap': () {
-        
-      },
+  {
+    'title': 'Mandi Rates',
+    'icon': Icons.trending_up,
+    'color1': Colors.orange.shade600,
+    'color2': Colors.orange.shade300,
+    'onTap': () {
+      print('object');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MandiSelector())
+      );
     },
-    {
-      'title': 'Crop Doctor',
-      'icon': Icons.health_and_safety,
-      'onTap': () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => CropDoctorScreen())
-        );
-      }
-    },
-    {
-      'title': 'Weather Forecast',
-      'icon': Icons.cloud,
-      'onTap': () {
-        
-      },
-    },
-    {
-      'title': 'Agri News',
-      'icon': Icons.article,
-      'onTap': () {
-        
-      },
-    },
+  },
+  {
+    'title': 'Crop Doctor',
+    'icon': Icons.health_and_safety,
+    'color1': Colors.green.shade600,
+    'color2': Colors.green.shade300,
+    'onTap': () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CropDoctorScreen())
+      );
+    }
+  },
+  {
+    'title': 'Community',
+    'icon': Icons.cloud,
+    'color1': Colors.blue.shade600,
+    'color2': Colors.blue.shade300,
+    'onTap': () {},
+  },
+  {
+    'title': 'Agri News',
+    'icon': Icons.article,
+    'color1': Colors.purple.shade600,
+    'color2': Colors.purple.shade300,
+    'onTap': () {},
+  },
+];
+
+ final List<String> bannerImages = [
+    'https://img.freepik.com/free-vector/farm-template-design_23-2150178969.jpg',
+    'https://img.freepik.com/free-vector/farm-template-design_23-2150178969.jpg',
+    'https://img.freepik.com/free-vector/hand-drawn-agriculture-company-sale-banner_23-2149696779.jpg',
   ];
+
     return Scaffold(
-      body: SafeArea(
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         child: Stack(
           children: [
-            // Solid Background
-            Container(
-              color: Colors.white,
+
+            // green gradient overlay
+            ClipPath(
+              clipper: CustomCurveClipper(),
+              child: Container(
+                  height: 250,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [
+    Color(0xFF6F8F2D), 
+    Color.fromARGB(255, 129, 167, 23), 
+  ],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+)
+
+
+                  ),
+                ),
             ),
 
-            Column(
-              children: [
-                // Custom App Bar
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3), // Glass effect
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        customIconButton(EvaIcons.menu2, widget.call),
 
-
-                        _customIconButton(Icons.menu, widget.call),
-                        // App Name
                         Text(
-                          "Kissan Setu",
+                          'Kissan Setu',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 30,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            color: Colors.green[900], // Dark green
                           ),
                         ),
 
-                        // Custom Buttons for Actions
-                        Row(
-                          children: [
-                            _customIconButton(Icons.notifications, () {}),
-                            const SizedBox(width: 10),
-                            _customIconButton(Icons.person, () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => SellerDashboardScreen())
-                              );
-                            }),
-                          ],
-                        ),
+                        customIconButton(EvaIcons.person, () {})
                       ],
                     ),
+
+                    SizedBox(height: 50,),
+
+                  //dashboard view
+                  DashboardCard(totalProducts: _totalProducts, totalRevenue: _totalRevenue, totalSales: _totalSales, isLoading: _isLoading),
+                  
+                  SizedBox(height: 20,),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "🚜 Latest News",
+                      style: TextStyle(
+                        //decoration: TextDecoration.underline,
+                        fontSize: 29,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
                   ),
-                ),
 
-                const SizedBox(height: 20),
-
-                SizedBox(
-                  height: 150,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  elevation: 4,
-                                  color: Colors.green.shade400, // Gradient feel
-                                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildStat("Listed Products", "${_totalProducts}",Icons.abc),
-                        _buildStat("Revenue", "${_totalRevenue}",Icons.aspect_ratio),
-                        _buildStat("Total Orders", "${_totalSales}",Icons.ac_unit_outlined),
-                      ],
-                    ),
-                                  ),
-                                ),
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
 
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  SizedBox(
+                    child: CarouselSlider(
+      options: CarouselOptions(
+        height: 180.0,
+        autoPlay: true,
+        enlargeCenterPage: true,
+        aspectRatio: 16/9,
+        viewportFraction: 1,
+      ),
+      items: bannerImages.map((image) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.network(image),
+        );
+      }).toList(),
+    ),
+                  ),
+
+                  SizedBox(height: 10,),
+
+
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "🚜 Agri Hub",
+                      /*
+                      🔍 What Do You Need Today?
+                      📌 Select a Feature
+                      ✨ Get Started
+                      */
+                      style: TextStyle(
+                        //decoration: TextDecoration.underline,
+                        fontSize: 29,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ),
+
+                  SizedBox(height: 20,),
+
+
+                  SizedBox(
+                    height: 300,
+                    //padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
                       itemCount: _features.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -193,37 +236,53 @@ class _HomeScreenState extends State<HomeScreen> {
                         childAspectRatio: 1.2,
                       ),
                       itemBuilder: (context, index) {
-                        return FeatureCard(
+                        return CustomCard(
                           title: _features[index]['title'],
                           icon: _features[index]['icon'],
                           onTap: _features[index]['onTap'],
+                          color: _features[index]['color1'],
                         );
                       },
                     ),
                   ),
+                ],
                 ),
-              ],
-            ),
+              ),
+            )
           ],
         ),
       ),
     );
-  }
+  } 
 
-  // Custom Icon Button
-  Widget _customIconButton(IconData icon, VoidCallback onTap) {
+  Widget customIconButton(IconData icon, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.green[700]!.withOpacity(0.3), // Green tint with transparency
+          color: Colors.white,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: Colors.green[900], size: 24),
+        child: Icon(icon, color: Colors.black, size: 24),
       ),
     );
   }
 
-  
+}
+
+class CustomCurveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height - 50);
+    path.quadraticBezierTo(
+        size.width / 2, size.height + 30, size.width, size.height - 50);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

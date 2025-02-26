@@ -7,7 +7,6 @@ class OrderService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String ordersCollection = "orders";
 
-  // Simulate a payment and create an order
   Future<void> createOrder({
     required String productId,
     required String buyerId,
@@ -16,8 +15,6 @@ class OrderService {
     required String category,
   }) async {
     try {
-      // Simulate a payment process here (later integrate Razorpay)
-      // If payment is successful:
       var uuid = Uuid();
       String orderId = uuid.v4();
 

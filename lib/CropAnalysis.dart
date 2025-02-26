@@ -124,9 +124,9 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "📸 Upload a clear image of the affected crop for diagnosis.",
+                "*Upload a clear image of the affected crop for diagnosis.",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.green[800]),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.red[800]),
               ),
               SizedBox(height: 15),
         

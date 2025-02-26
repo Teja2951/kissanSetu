@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kisaansetu/Services/product_service.dart';
 import 'package:kisaansetu/Farmers/update_product_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class UserProductsScreen extends StatelessWidget {
   final String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -10,7 +12,7 @@ class UserProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My Listings")),
+      appBar: AppBar(title: Text("M Y  L I S T I N G S",style: TextStyle(fontSize: 26),),centerTitle: true,elevation: 3,),
       body: StreamBuilder<QuerySnapshot>(
         stream: ProductService().getFarmerProducts(userId),
         builder: (context, snapshot) {
@@ -23,18 +25,12 @@ class UserProductsScreen extends StatelessWidget {
 
           var products = snapshot.data!.docs;
 
-          return GridView.builder(
+          return ListView.builder(
             padding: EdgeInsets.all(10),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // 2 products per row
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.8,
-            ),
             itemCount: products.length,
             itemBuilder: (context, index) {
               var product = products[index];
-              return _buildAnimatedCard(context, product, index);
+              return _buildProductCard(context, product);
             },
           );
         },
@@ -42,134 +38,122 @@ class UserProductsScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildProductCard(BuildContext context, DocumentSnapshot product) {
+    bool isSold = product["isSold"] ?? false;
+    bool isSeller = product["farmerId"] == userId;
+    String category = product["category"] ?? "Unknown";
+    Timestamp timestamp = product["createdAt"] ?? Timestamp.now();
+    String formattedDate = DateFormat('dd MMM yyyy').format(timestamp.toDate());
 
-Widget _buildAnimatedCard(BuildContext context, DocumentSnapshot product, int index) {
-  bool isSold = product["isSold"] ?? false; 
-
-  return Hero(
-    tag: product.id,
-    child: AnimatedContainer(
-      duration: Duration(milliseconds: 300 + (index * 100)), // Staggered animation
-      curve: Curves.easeInOut,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 8,
-            spreadRadius: 2,
-            offset: Offset(0, 4),
+    return Card(
+      color: Colors.green[50]!,
+      elevation: 6,
+      margin: EdgeInsets.symmetric(vertical: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                  image: product["imageUrl"] != "image_url_placeholder"
+                      ? DecorationImage(
+                          image: NetworkImage(product["imageUrl"]),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                  color: product["imageUrl"] == "image_url_placeholder" ? Colors.grey[200] : null,
+                ),
+                child: product["imageUrl"] == "image_url_placeholder"
+                    ? Icon(Icons.image, size: 80, color: Colors.grey)
+                    : null,
+              ),
+              Positioned(
+                top: 10,
+                left: 10,
+                child: Chip(
+                  label: Text(
+                    isSold ? "SOLD" : "AVAILABLE",
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: isSold ? Colors.red : Colors.green,
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                ),
+              ),
+              if (isSeller)
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _editProduct(context, product),
+                    icon: Icon(EvaIcons.editOutline, color: Colors.blueAccent),
+                    label: Text("Edit", style: TextStyle(color: Colors.blueAccent)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      elevation: 3,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product["name"],
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  "₹${product["price"]}",
+                  style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Chip(
+                      label: Text(category, style: TextStyle(color: Colors.white)),
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                    Text(
+                      formattedDate,
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                if (!isSeller)
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text("Buy Now"),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Stack(
-          children: [
-            // Product Image with overlay
-            Positioned.fill(
-              child: product["imageUrl"] != "image_url_placeholder"
-                  ? Image.network(
-                      product["imageUrl"],
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    )
-                  : Container(
-                      color: Colors.grey[200],
-                      child: const Icon(Icons.image, size: 60, color: Colors.grey),
-                    ),
-            ),
-
-            // Gradient overlay for readability
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 80,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.8),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-              ),
-            ),
-
-            // Product Info
-            Positioned(
-              bottom: 15,
-              left: 12,
-              right: 12,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product["name"],
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "₹${product["price"].toString()}",
-                    style: const TextStyle(fontSize: 14, color: Colors.green, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-
-            Positioned(
-              top: 10,
-              left: 10,
-              child: Chip(
-                label: Text(
-                  isSold ? "SOLD" : "NOT SOLD",
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: isSold ? Colors.red : Colors.green, // Red for sold, green for available
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              ),
-            ),
-              
-            Positioned(
-              top: 10,
-              right: 10,
-              child: GestureDetector(
-                onTap: () => _editProduct(context, product),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(color: Colors.black26, blurRadius: 6, spreadRadius: 1),
-                    ],
-                  ),
-                  child: const Icon(Icons.edit, size: 18, color: Colors.blueAccent),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
+    );
+  }
 
   void _editProduct(BuildContext context, DocumentSnapshot product) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) =>   EditProductScreen(product: product)),
+      MaterialPageRoute(builder: (context) => EditProductScreen(product: product)),
     );
   }
 }

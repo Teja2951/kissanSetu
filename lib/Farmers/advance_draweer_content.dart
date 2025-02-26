@@ -105,7 +105,6 @@ class _AdvancedDrawerContentState extends State<AdvancedDrawerContent> {
                       _buildListTile(Icons.money, 'Dashboard', SellerDashboardScreen()),
                       _buildListTile(Icons.person_2_rounded, 'Profile', MarketplaceScreen()),
                       _buildListTile(Icons.contact_page, 'Contact Us', MarketplaceScreen()),
-                      _buildListTile(Icons.contact_page, 'Mandi', MandiSelector()),
                       _buildListTile(Icons.chat, 'Negotiations', ChatListScreen()),
 
                     ],
