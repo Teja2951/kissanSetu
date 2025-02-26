@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:kisaansetu/Farmers/farmerhome_screen.dart';
 import 'package:kisaansetu/firebase_options.dart';
 import 'package:kisaansetu/auth/login_screen.dart';
@@ -15,6 +16,11 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqenByd2RnbnhvaG95Y213cW5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMDExODUsImV4cCI6MjA1NTg3NzE4NX0.6lwPrcmkgvtbwkE34R-0z2HXRIATrEO7hkkJ3ab9sSw',
   );
+
+  Gemini.init(
+    apiKey: 'AIzaSyAiiK5e3IczRDfbb-wz59_m2x0XQ12Vnno',
+  );
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -4,12 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:kisaansetu/CropAnalysis.dart';
+import 'package:kisaansetu/Farmers/chatbot.dart';
 import 'package:kisaansetu/Farmers/farmer_dashboard.dart';
 import 'package:kisaansetu/Farmers/tabs/cards.dart';
 import 'package:kisaansetu/Farmers/tabs/dashboard_card.dart';
 import 'package:kisaansetu/Services/order_service.dart';
 import 'package:kisaansetu/Services/product_service.dart';
 import 'package:kisaansetu/Widgets_Homescreen/mandi_service.dart';
+import 'package:kisaansetu/user_profile.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -87,11 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   },
   {
-    'title': 'Community',
-    'icon': Icons.cloud,
+    'title': 'Chat Saathi',
+    'icon': EvaIcons.messageCircleOutline,
     'color1': Colors.blue.shade600,
     'color2': Colors.blue.shade300,
-    'onTap': () {},
+    'onTap': () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatBotScreen()));
+    },
   },
   {
     'title': 'Agri News',
@@ -155,7 +159,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
 
-                        customIconButton(EvaIcons.person, () {})
+                        customIconButton(
+                          EvaIcons.person,
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => UserProfile(uid: FirebaseAuth.instance.currentUser!.uid,)),
+                            );
+                          }
+                        )
                       ],
                     ),
 

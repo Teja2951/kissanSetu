@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:kisaansetu/Farmers/advance_draweer_content.dart';
+import 'package:kisaansetu/Farmers/chatbot.dart';
 import 'package:kisaansetu/marketplace_screen.dart';
 import 'package:kisaansetu/Farmers/tabs/add_product.dart';
 import 'package:kisaansetu/Farmers/tabs/home_screen.dart';
@@ -32,6 +33,7 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
     final List<Widget> _screens = [
     HomeScreen(call: _callSideBar,),
     AddProductScreen(),
+    ChatBotScreen(),
     OrdersScreen(),
     //MarketplaceScreen(),
     UserProductsScreen()
@@ -78,6 +80,7 @@ Color(0xFF1B5E20),
             borderRadius: BorderRadius.circular(40),
             color: Colors.white.withOpacity(0.1), // Transparent effect
             child: BottomNavigationBar(
+              enableFeedback: true,
               backgroundColor: Colors.transparent,
               selectedItemColor: Colors.greenAccent,
               unselectedItemColor: Colors.white70,
@@ -87,6 +90,7 @@ Color(0xFF1B5E20),
               items: const [
                 BottomNavigationBarItem(icon: Icon(EvaIcons.home),backgroundColor: Colors.black, label: 'Home'),
                 BottomNavigationBarItem(icon: Icon(EvaIcons.fileAdd),backgroundColor: Colors.black, label: 'Sell'),
+                BottomNavigationBarItem(icon: Icon(EvaIcons.mic),backgroundColor: Colors.black, label: 'Chat Saathi'),
                 BottomNavigationBarItem(icon: Icon(Icons.receipt_long),backgroundColor: Colors.black, label: 'My Orders'),
                 BottomNavigationBarItem(icon: Icon(Icons.agriculture),backgroundColor: Colors.black, label: 'My Listings'),
               ],
@@ -96,7 +100,25 @@ Color(0xFF1B5E20),
             ),
           ),
         ),
-      ),
-    );
+//         floatingActionButton: FloatingActionButton.extended(
+//   onPressed: () {
+//     Navigator.push(
+//       context,
+//       MaterialPageRoute(builder: (context) => ChatBotScreen()),
+//     );
+//   },
+//   label: Row(
+//     children: [
+//       //Text('Chat with AI'),
+//       //SizedBox(width: 5), // Add spacing
+//       Icon(Icons.mic),
+//     ],
+//   ),
+//   backgroundColor: Colors.green,
+//   elevation: 10,
+// ),
+//floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterTop,
+        )
+      );
   }
 }

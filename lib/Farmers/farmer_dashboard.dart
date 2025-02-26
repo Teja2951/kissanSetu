@@ -35,7 +35,6 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 📊 Pie Chart for Category Sales
                 SizedBox(height: 200,
                   child:  categorySales.isNotEmpty
       ? CategorySalesPieChart(categorySales: categorySales)
@@ -43,7 +42,6 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
 
                 ),
                 
-                // 📌 Card for Earnings & Product Stats
                 Card(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   elevation: 3,
