@@ -11,6 +11,8 @@ import 'package:kisaansetu/Farmers/tabs/dashboard_card.dart';
 import 'package:kisaansetu/Services/order_service.dart';
 import 'package:kisaansetu/Services/product_service.dart';
 import 'package:kisaansetu/Widgets_Homescreen/mandi_service.dart';
+import 'package:kisaansetu/community.dart';
+import 'package:kisaansetu/government_schemes.dart';
 import 'package:kisaansetu/user_profile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -98,11 +100,22 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   },
   {
-    'title': 'Agri News',
-    'icon': Icons.article,
+    'title': 'Community',
+    'icon': Icons.people,
     'color1': Colors.purple.shade600,
     'color2': Colors.purple.shade300,
-    'onTap': () {},
+    'onTap': () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityScreen()));
+    },
+  },
+  {
+    'title': 'Goverment Schemes',
+    'icon': Icons.receipt_long_outlined,
+    'color1': Colors.indigo.shade600,
+    'color2': Colors.indigo.shade300,
+    'onTap': () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => GovernmentSchemes()));
+    },
   },
 ];
 
@@ -235,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
                   SizedBox(
-                    height: 300,
+                    height: 600,
                     //padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: GridView.builder(
                       physics: NeverScrollableScrollPhysics(),

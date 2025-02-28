@@ -66,11 +66,9 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> {
       String rawText = jsonResponse["candidates"]?[0]["content"]["parts"][0]["text"] ??
           "Unable to diagnose the crop.";
 
-      // Check if response contains expected keys
       if (rawText.contains("**Diagnosis:**") || rawText.contains("**Symptoms:**")) {
         _parseDiagnosisResponse(rawText);
       } else {
-        // If the response does not contain expected keys, assume it's an invalid response
         setState(() {
           _diagnosisData["Error"] = "The uploaded image does not appear to be a plant. Please try again with a valid crop image.";
         });
