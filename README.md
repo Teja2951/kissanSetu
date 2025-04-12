@@ -26,13 +26,13 @@ A Flutter app designed to connect farmers and buyers while integrating useful fe
 - 🚀 **Crop Diagnosis:** Google Gemini API for crop disease detection
 
 ---
-(images/1.png)
-(images/2.png)
-(images/3.png)
-(images/4.png)
-(images/5.png)
+![Image 1](images/1.png)
+![Image 2](images/2.png)
+![Image 3](images/3.png)
+![Image 4](images/4.png)
+![Image 5](images/5.png)
 
-> 📌 **Note:** Add your images inside the `/images` folder in this repository.
+
 
 ---
 
