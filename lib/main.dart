@@ -23,7 +23,6 @@ void main() async {
   
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-    
   );
   runApp(const MyApp());
 }
@@ -101,7 +100,7 @@ class MyApp extends StatelessWidget {
                   }
                 }
                 print('confused');
-                return LoginScreen(); // If role couldn't be determined
+                return FarmerHomeScreen(); // If role couldn't be determined
               },
             );
           }

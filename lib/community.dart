@@ -17,7 +17,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => CreatePost()));
-      }),
+      },
+      child: Icon(Icons.add),
+      ),
       backgroundColor: Colors.green[200],
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -46,7 +48,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
 
               SizedBox(
-                height: 500,
+                height: 700,
                 child: ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
