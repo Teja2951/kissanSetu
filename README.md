@@ -41,7 +41,7 @@ A Flutter app designed to connect farmers and buyers while integrating useful fe
 To set up the project locally:
 
 ```bash
-git clone https://github.com/your-username/kissan-setu.git
+git clone https://github.com/teja2951/kissan-setu.git
 cd kissan-setu
 flutter pub get
 flutter run
