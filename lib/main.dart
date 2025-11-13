@@ -19,7 +19,7 @@ void main() async {
   );
 
   Gemini.init(
-    apiKey: 'AIzaSyAiiK5e3IczRDfbb-wz59_m2x0XQ12Vnno',
+    apiKey: 'heheheh',
   );
   
   await Firebase.initializeApp(
