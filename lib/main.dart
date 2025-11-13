@@ -13,9 +13,9 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sp;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await sp.Supabase.initialize(
-    url: 'https://jjzprwdgnxohoycmwqnh.supabase.co',
+    url: 'qnh.supabase.co',
     anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqenByd2RnbnhvaG95Y213cW5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMDExODUsImV4cCI6MjA1NTg3NzE4NX0.6lwPrcmkgvtbwkE34R-0z2HXRIATrEO7hkkJ3ab9sSw',
+        'hehe hehe hehe',
   );
 
   Gemini.init(
